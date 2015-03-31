@@ -28,7 +28,7 @@ public class MainBufferClass_1_2 {
         
         BoundedBufferCondition_1_2 mon = new BoundedBufferCondition_1_2(bb);
         HandleRAFFilesWithThreads hrwt = new HandleRAFFilesWithThreads(file, lineSize, nrOfThreads, mon);
-        hrwt.readFile(file, lineSize);
+        hrwt.readFile();
         hrwt.verwerk();
         try {
             sleep(5000);

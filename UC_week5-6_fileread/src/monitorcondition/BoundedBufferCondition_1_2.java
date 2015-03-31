@@ -20,6 +20,7 @@ public class BoundedBufferCondition_1_2 implements IBuffer {
 
     private Lock lock = new ReentrantLock();
     private Condition volGenoeg = lock.newCondition();
+    private boolean vol = false;
 
     private final IBuffer buf;
 
@@ -29,7 +30,7 @@ public class BoundedBufferCondition_1_2 implements IBuffer {
     }
 
     @Override
-    public synchronized void insert(Object item) {
+    public  void insert(Object item) {
         lock.lock();
         this.buf.insert(item);
         volGenoeg.signalAll();
@@ -43,16 +44,17 @@ public class BoundedBufferCondition_1_2 implements IBuffer {
         Object o;
         lock.lock();
         try {
-            while (this.buf.getLengte() < 900) {
+            while (!vol) {
                 volGenoeg.await();
+                if (buf.getLengte() == 100000) vol = true;
             }
         } catch (InterruptedException ex) {
             Logger.getLogger(BoundedBufferCondition_1_2.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            lock.unlock();
-        }
+        } 
 //        System.out.println(buf.getLengte());
-        return this.buf.remove();
+        o =  this.buf.remove();
+        lock.unlock();
+        return o;
     }
 
     @Override

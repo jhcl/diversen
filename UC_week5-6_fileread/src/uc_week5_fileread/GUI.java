@@ -165,7 +165,7 @@ public class GUI extends Application {
             }
             if (file.exists()) {
                 hr = new HandleRAFFilesWithThreads(file, regelLengte, aantalThreads, buf);
-                hr.readFile(file, regelLengte);
+                hr.readFile();
             } else {
                 lblFeedback.setText("File " + file + " bestaat niet.");
             }

@@ -45,7 +45,7 @@ public class HandleRAFFilesWithThreads implements I_HandleRAFFiles {
     /**
      * maak threads aan om concurrent file te lezen.
      */
-    public void readFile(File file, int lineSize) {
+    public void readFile() {
         // berekening in hoeveel blokken de file gehakt moet worden en 
         // dus hoeveel threads er nodig zijn.
         //

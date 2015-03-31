@@ -5,32 +5,47 @@
  */
 package utils;
 
+import static java.lang.Thread.sleep;
+import javafx.concurrent.Task;
 import unboundedbuffer.IBuffer;
 
 /**
  *
  * @author nl08940
  */
-public class VerwerkRegelRunnableFX implements Runnable {
+public class VerwerkRegelRunnableFX extends Task {
 
-    int lineSize;
+    int lineSize, grootte;
     IBuffer sharedbuffer;
 
     public VerwerkRegelRunnableFX(int lineSize, IBuffer sharedbuffer) {
         this.lineSize = lineSize;
         this.sharedbuffer = sharedbuffer;
+        grootte = sharedbuffer.getLengte();
+
     }
 
     @Override
-    public void run() {
-        if (sharedbuffer.getLengte() > 0) {
-
+    public Void call() throws InterruptedException {
+        if (lineSize > 0) {
             for (int i = 0; i < lineSize; ++i) {
-                sharedbuffer.remove();
-//                System.out.println("verwerk: " + sharedbuffer.getLengte() + " " + sharedbuffer.getClass());
+                if (isCancelled()) {
+                    updateMessage("stopped");
+                    break;
+                }
+                updateProgress(i, lineSize);
+                try {
+                    sleep(100);
+                } catch (InterruptedException e) {
+                    if (isCancelled()) {
+                        updateMessage("stopped");
+                        break;
+                    }
+                }
+                    sharedbuffer.remove();
+                }
             }
-            System.out.println("Erbij: " + sharedbuffer.erbijGezet() + ", eraf: " + sharedbuffer.eruitGehaald());
+            return null;
         }
-    }
 
-}
+    }

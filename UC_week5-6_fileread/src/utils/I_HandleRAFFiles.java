@@ -21,7 +21,8 @@ public interface I_HandleRAFFiles {
      * @param file
      * @param lineSize
      */
-    void readFile(File file,  int lineSize);
+//    void readFile(File file,  int lineSize);
+    void readFile();
 
   
 }

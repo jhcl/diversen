@@ -29,15 +29,14 @@ public class BoundedBufferCondition_1_3 implements IBuffer {
     }
 
     @Override
-    public synchronized void insert(Object item) {
-        this.buf.insert(item);
+    public void insert(Object item) {
         lock.lock();
-        while (this.buf.getLengte() > 100) {
-//        while (lock.tryLock()) {
+        this.buf.insert(item);
+        while (this.buf.getLengte() == 0) {
             try {
                 volGenoeg.await();
             } catch (InterruptedException ex) {
-                Logger.getLogger(BoundedBufferCondition_1_2.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(BoundedBufferCondition_1_3.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         lock.unlock();
@@ -48,7 +47,7 @@ public class BoundedBufferCondition_1_3 implements IBuffer {
     // returns null als buffer leeg is.
     @Override
     public Object remove() {
-        
+
         lock.lock();
         Object o = this.buf.remove();
         volGenoeg.signal();

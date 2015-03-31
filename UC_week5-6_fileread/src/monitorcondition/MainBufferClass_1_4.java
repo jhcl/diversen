@@ -28,7 +28,7 @@ public class MainBufferClass_1_4 {
         
         BoundedBufferMonitor mon = new BoundedBufferMonitor(bb);
         HandleRAFFilesWithThreads hrwt = new HandleRAFFilesWithThreads(file, 50, nrOfThreads, mon);
-        hrwt.readFile(file, lineSize);
+        hrwt.readFile();
         hrwt.verwerk();
         try {
             sleep(5000);
