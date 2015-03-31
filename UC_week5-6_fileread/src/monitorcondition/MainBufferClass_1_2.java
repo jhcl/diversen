@@ -33,7 +33,7 @@ public class MainBufferClass_1_2 {
         try {
             sleep(5000);
         } catch (InterruptedException ex) {
-            Logger.getLogger(MainBufferClass_1_1.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MainBufferClass_1_2.class.getName()).log(Level.SEVERE, null, ex);
         }
         hrwt.stopAll();
     }

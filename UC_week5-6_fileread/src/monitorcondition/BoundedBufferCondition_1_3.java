@@ -30,15 +30,18 @@ public class BoundedBufferCondition_1_3 implements IBuffer {
 
     @Override
     public void insert(Object item) {
+
         lock.lock();
-        this.buf.insert(item);
-        while (this.buf.getLengte() == 0) {
+
+        while (this.buf.getLengte() != 0) {
             try {
                 volGenoeg.await();
+
             } catch (InterruptedException ex) {
                 Logger.getLogger(BoundedBufferCondition_1_3.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+        this.buf.insert(item);
         lock.unlock();
 
     }
@@ -47,9 +50,9 @@ public class BoundedBufferCondition_1_3 implements IBuffer {
     // returns null als buffer leeg is.
     @Override
     public Object remove() {
-
+        Object o = null;
         lock.lock();
-        Object o = this.buf.remove();
+        if (buf.getLengte() != 0) o = this.buf.remove();
         volGenoeg.signal();
         lock.unlock();
         return o;
@@ -57,7 +60,10 @@ public class BoundedBufferCondition_1_3 implements IBuffer {
 
     @Override
     public int getLengte() {
-        return this.buf.getLengte();
+        lock.lock();
+        int l = this.buf.getLengte();
+        lock.unlock();
+        return l;
     }
 
     @Override
