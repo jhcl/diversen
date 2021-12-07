@@ -17,11 +17,8 @@ def isvalid(entry, position):
 
 puzzel = [[]] * 9
 for i in range(0, 9):
-#    puzzel[i] = [x for x in permutations(range(1, 10))]
     puzzel[i] = [x for x in permutations(range(1, 10)) if isvalid(x, i)]
 
-
-print('len input', [len(x) for x in puzzel])
 
 for entry0 in puzzel[0]:
     for entry1 in puzzel[1]:
