@@ -1,6 +1,7 @@
 from itertools import permutations, chain
 from pprint import pprint
 from readpkg import readsudoku
+from sys import exit
 
 input = readsudoku.readinp()
 
@@ -57,3 +58,4 @@ for entry0 in puzzel[0]:
                                     if not all(len(set(x)) == 9 for x in zip(*e)):
                                         continue
                                     pprint(e)
+                                    exit()
