@@ -1,7 +1,7 @@
 from itertools import permutations, chain
 from pprint import pprint
-# from sys import exit
 from readpkg import readsudoku
+from sys import exit
 
 input = readsudoku.readinp()
 
